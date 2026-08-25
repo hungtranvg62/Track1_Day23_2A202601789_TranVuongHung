@@ -22,7 +22,6 @@
 | Hồ Phạm Đức Linh | 2A202601533 |
 | Lê Hoàng Việt | 2A202601543 |
 
-> ⬜ **CẦN CHỐT MỘT TÊN** — Day 17 và Day 22 ghi nhóm là **JCungDuoc**, Day 19–21 ghi **JCungDc-1**. Hai tên đang tồn tại song song trong các repo cũ; chọn một và sửa lại cho khớp trước khi nộp.
 
 ---
 
@@ -156,7 +155,7 @@ Nó là bằng chứng cho counter-metric, không phải bằng chứng cho valu
 - [x] Revision log ghi lý do 4 thay đổi
 - [x] AI Support Log là của chính người nộp
 - [ ] ⬜ **Dán link tệp nhóm đã cấp quyền xem vào §2**
-- [ ] ⬜ **Chốt tên nhóm: JCungDuoc hay JCungDc-1**
+- [x] Chốt tên nhóm: **JCungDuoc**
 - [ ] ⬜ **Nhóm phản biện core action, cadence và metric hypothesis** (§3)
 
 ---
