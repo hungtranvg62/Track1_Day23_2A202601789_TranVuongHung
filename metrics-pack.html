@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics Pack — VLearn Slide-Aware Copilot | Day 23 Lab</title>
+    <meta name="description" content="Product Metrics Pack cho VLearn Slide-Aware Copilot — Core Action, Nature &amp; Cadence, Metric System, Retention, Product Loop, Tracking.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ====== DESIGN SYSTEM ====== */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(139, 92, 246, 0.3);
+            --text-primary: #f0f0f5;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-teal: #14b8a6;
+            --accent-pink: #ec4899;
+            --accent-amber: #f59e0b;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --gradient-hero: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #14b8a6 100%);
+            --gradient-gate: linear-gradient(135deg, #22c55e 0%, #14b8a6 100%);
+            --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(20, 184, 166, 0.04) 0%, transparent 50%);
+            z-index: -1;
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-2%, 1%) rotate(1deg); }
+            66% { transform: translate(1%, -1%) rotate(-0.5deg); }
+        }
+
+        /* ====== NAV ====== */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 2rem;
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px; gap: 1rem;
+        }
+        .nav-logo {
+            font-weight: 800; font-size: 1.1rem;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: -0.02em; white-space: nowrap;
+        }
+        .nav-links { display: flex; gap: 0.25rem; list-style: none; overflow-x: auto; scrollbar-width: none; }
+        .nav-links::-webkit-scrollbar { display: none; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: 0.75rem; font-weight: 500;
+            padding: 0.4rem 0.75rem; border-radius: var(--radius-sm);
+            transition: all 0.2s ease; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.35rem;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); background: var(--bg-glass); }
+        .nav-links a.active .nav-phase-num { background: var(--accent-purple); color: #fff; }
+        .nav-phase-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: var(--bg-glass); font-size: 0.65rem; font-weight: 700; color: var(--accent-purple);
+        }
+
+        /* ====== HERO ====== */
+        .hero {
+            min-height: 60vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 8rem 2rem 4rem; position: relative;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+            background: linear-gradient(to bottom, transparent, var(--bg-primary));
+        }
+        .hero-content { max-width: 820px; position: relative; z-index: 1; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1.25rem; border-radius: 100px;
+            background: var(--bg-glass); border: 1px solid var(--border-subtle);
+            font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);
+            margin-bottom: 2rem; animation: fadeInDown 0.8s ease;
+        }
+        .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+        .hero h1 {
+            font-size: clamp(2.1rem, 5vw, 3.6rem); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+        .hero h1 .gradient-text {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem; color: var(--text-secondary);
+            max-width: 640px; margin: 0 auto 2rem; animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero-meta { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 0.8s ease 0.3s both; }
+        .hero-meta-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+        .hero-meta-item .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 600; }
+        .hero-meta-item .value { font-size: 0.95rem; font-weight: 600; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ====== SECTIONS ====== */
+        .section { max-width: 960px; margin: 0 auto; padding: 4rem 2rem; }
+        .section-header { margin-bottom: 2.5rem; }
+        .section-phase {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.35rem 1rem; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.08em; margin-bottom: 1rem;
+        }
+        .section-phase.phase-0 { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+        .section-phase.phase-1 { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+        .section-phase.phase-2 { background: rgba(20, 184, 166, 0.15); color: var(--accent-teal); }
+        .section-phase.phase-3 { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+        .section-phase.phase-4 { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+        .section-phase.phase-5 { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .section-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+        .section-desc { font-size: 1rem; color: var(--text-secondary); max-width: 720px; }
+
+        /* ====== CARDS ====== */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 1.5rem;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: var(--gradient-hero); opacity: 0; transition: opacity 0.3s ease;
+        }
+        .card:hover { background: var(--bg-card-hover); border-color: var(--border-accent); box-shadow: var(--shadow-glow); }
+        .card:hover::before { opacity: 1; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem; }
+        .card-title .icon {
+            width: 32px; height: 32px; border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0; background: var(--bg-glass);
+        }
+
+        /* ====== TABLES ====== */
+        .table-wrap { overflow-x: auto; }
+        .data-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle);
+        }
+        .data-table th {
+            background: rgba(139, 92, 246, 0.08); padding: 0.85rem 1.25rem; text-align: left;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+            color: var(--accent-purple); border-bottom: 1px solid var(--border-subtle);
+        }
+        .data-table td {
+            padding: 0.85rem 1.25rem; font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03); vertical-align: top;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
+        .data-table .label-cell { font-weight: 600; color: var(--text-secondary); white-space: nowrap; width: 190px; }
+        .data-table code, .mono {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+            background: rgba(20, 184, 166, 0.08); color: var(--accent-teal);
+            padding: 0.1rem 0.4rem; border-radius: 6px;
+        }
+
+        /* ====== GATE ====== */
+        .gate-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(20, 184, 166, 0.05) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2); border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem; margin: 2.5rem 0; display: flex; align-items: flex-start; gap: 1rem;
+        }
+        .gate-icon {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-gate);
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800;
+            color: #06281a; flex-shrink: 0; box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        .gate-content h4 { font-size: 0.95rem; font-weight: 700; color: var(--accent-green); margin-bottom: 0.35rem; }
+        .gate-content p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+
+        /* ====== CRITERIA ====== */
+        .criteria-list { list-style: none; display: grid; gap: 0.6rem; }
+        .criteria-item {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 0.75rem 1rem; border-radius: var(--radius-sm);
+            background: var(--bg-glass); border: 1px solid transparent; transition: all 0.2s ease;
+        }
+        .criteria-item:hover { border-color: var(--border-subtle); }
+        .criteria-check {
+            width: 22px; height: 22px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; flex-shrink: 0; margin-top: 1px;
+            background: rgba(34, 197, 94, 0.15); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .criteria-label { font-size: 0.88rem; font-weight: 600; }
+        .criteria-reason { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.65; }
+
+        /* ====== METRIC CARDS ====== */
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .metric-card {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md); padding: 1.5rem; transition: all 0.3s ease;
+        }
+        .metric-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+        .metric-card .metric-type { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+        .metric-card.activation .metric-type { color: var(--accent-blue); }
+        .metric-card.engagement .metric-type { color: var(--accent-teal); }
+        .metric-card.leading .metric-type { color: var(--accent-amber); }
+        .metric-card.counter .metric-type { color: var(--accent-red); }
+        .metric-card .metric-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.45; }
+        .metric-card .metric-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; }
+        .metric-card .metric-why {
+            font-size: 0.78rem; color: var(--text-muted); line-height: 1.65;
+            margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px dashed var(--border-subtle);
+        }
+
+        /* ====== NSM ====== */
+        .nsm-highlight {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(59, 130, 246, 0.08) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.25); border-radius: var(--radius-xl);
+            padding: 2.5rem; text-align: center; margin: 2rem 0; position: relative;
+        }
+        .nsm-highlight::before {
+            content: '★'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 30px; height: 30px; background: var(--accent-purple); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+        .nsm-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-purple); margin-bottom: 0.75rem; }
+        .nsm-formula { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.25rem; line-height: 1.6; }
+        .nsm-components { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .nsm-component {
+            padding: 0.7rem 1rem; border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle);
+            font-size: 0.8rem; max-width: 270px; text-align: left; line-height: 1.6;
+        }
+        .nsm-component .comp-label {
+            font-weight: 700; color: var(--accent-purple); font-size: 0.65rem;
+            text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.25rem;
+        }
+
+        /* ====== LOOP ====== */
+        .loop-container {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl); padding: 2.5rem 1.5rem; margin: 2rem 0; overflow-x: auto;
+        }
+        .loop-cycle { display: flex; align-items: stretch; justify-content: center; flex-wrap: nowrap; min-width: 780px; margin: 0 auto; }
+        .loop-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0.5rem; flex: 1; min-width: 120px; max-width: 165px; }
+        .loop-step-icon {
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 0.6rem;
+        }
+        .loop-step-icon.trigger { background: rgba(245, 158, 11, 0.15); border: 2px solid rgba(245, 158, 11, 0.3); }
+        .loop-step-icon.action { background: rgba(139, 92, 246, 0.15); border: 2px solid rgba(139, 92, 246, 0.3); }
+        .loop-step-icon.value { background: rgba(34, 197, 94, 0.15); border: 2px solid rgba(34, 197, 94, 0.3); }
+        .loop-step-icon.state { background: rgba(59, 130, 246, 0.15); border: 2px solid rgba(59, 130, 246, 0.3); }
+        .loop-step-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.3rem; }
+        .loop-step-text { font-size: 0.78rem; font-weight: 500; color: var(--text-secondary); line-height: 1.5; }
+        .loop-arrow { font-size: 1.1rem; color: var(--text-muted); flex-shrink: 0; align-self: center; padding: 0 0.15rem; }
+        .loop-divider {
+            width: 100%; text-align: center; padding: 1.25rem 0;
+            font-size: 0.72rem; font-weight: 700; color: var(--accent-purple);
+            letter-spacing: 0.1em; text-transform: uppercase; position: relative;
+        }
+        .loop-divider::before, .loop-divider::after { content: ''; position: absolute; top: 50%; width: 24%; height: 1px; background: var(--border-subtle); }
+        .loop-divider::before { left: 4%; }
+        .loop-divider::after { right: 4%; }
+        .loop-bridge {
+            min-width: 780px; margin: 1rem auto 0; padding: 1rem 1.25rem;
+            background: rgba(59, 130, 246, 0.06); border: 1px dashed rgba(59, 130, 246, 0.25);
+            border-radius: var(--radius-md); font-size: 0.85rem; color: var(--text-secondary); line-height: 1.75;
+        }
+        .loop-bridge strong { color: var(--text-primary); }
+
+        /* ====== HYPOTHESIS ====== */
+        .hypothesis-box {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.2); border-radius: var(--radius-lg);
+            padding: 1.75rem 2rem; margin: 2rem 0;
+        }
+        .hypothesis-box .hyp-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-pink); margin-bottom: 0.6rem; }
+        .hypothesis-box .hyp-text { font-size: 1rem; font-weight: 400; font-style: italic; line-height: 1.9; }
+        .hypothesis-box .hyp-text em { font-style: normal; font-weight: 700; color: var(--accent-pink); }
+
+        /* ====== ACCEPTANCE ====== */
+        .acceptance-box {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md); padding: 1.5rem; margin-top: 1.5rem;
+        }
+        .acceptance-box h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent-amber); }
+        .acceptance-item {
+            padding: 1rem; background: rgba(245, 158, 11, 0.04);
+            border: 1px solid rgba(245, 158, 11, 0.1); border-radius: var(--radius-sm);
+            margin-bottom: 0.75rem; font-size: 0.85rem; line-height: 1.8; color: var(--text-secondary);
+        }
+        .acceptance-item:last-child { margin-bottom: 0; }
+        .acceptance-item strong { color: var(--text-primary); }
+        .acceptance-item .ac-num { color: var(--accent-amber); font-weight: 800; margin-right: 0.35rem; }
+
+        /* ====== SELF CHECK ====== */
+        .selfcheck-grid { display: grid; gap: 0.5rem; }
+        .selfcheck-item {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 0.85rem 1.25rem; background: var(--bg-card);
+            border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); transition: all 0.2s ease;
+        }
+        .selfcheck-item:hover { border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.03); }
+        .selfcheck-icon { font-size: 1.05rem; flex-shrink: 0; margin-top: 2px; }
+        .selfcheck-text { font-size: 0.87rem; }
+        .selfcheck-text strong { display: block; font-weight: 600; margin-bottom: 0.15rem; }
+        .selfcheck-text span { color: var(--text-muted); font-size: 0.82rem; line-height: 1.7; }
+
+        /* ====== TAGS / PILLS ====== */
+        .tag { display: inline-flex; align-items: center; padding: 0.2rem 0.6rem; border-radius: 100px; font-size: 0.7rem; font-weight: 600; }
+        .tag.purple { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); }
+        .tag.blue { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+        .tag.teal { background: rgba(20, 184, 166, 0.15); color: var(--accent-teal); }
+        .tag.amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+        .tag.green { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .tag.red { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0; }
+        .pill {
+            padding: 0.4rem 0.9rem; border-radius: 100px; font-size: 0.78rem; font-weight: 500;
+            background: var(--bg-glass); border: 1px solid var(--border-subtle); color: var(--text-muted);
+        }
+        .pill.chosen { background: rgba(20, 184, 166, 0.15); border-color: rgba(20, 184, 166, 0.35); color: var(--accent-teal); font-weight: 700; }
+
+        /* ====== CALLOUT ====== */
+        .callout { padding: 1.25rem 1.5rem; border-radius: var(--radius-md); margin: 1.5rem 0; font-size: 0.88rem; line-height: 1.8; border-left: 3px solid; color: var(--text-secondary); }
+        .callout.info { background: rgba(59, 130, 246, 0.06); border-color: var(--accent-blue); }
+        .callout.warning { background: rgba(245, 158, 11, 0.06); border-color: var(--accent-amber); }
+        .callout.danger { background: rgba(239, 68, 68, 0.06); border-color: var(--accent-red); }
+        .callout.evidence { background: rgba(139, 92, 246, 0.06); border-color: var(--accent-purple); }
+        .callout strong { color: var(--text-primary); }
+        .callout .co-title { display: block; font-weight: 700; color: var(--text-primary); margin-bottom: 0.35rem; font-size: 0.9rem; }
+
+        /* ====== CADENCE ====== */
+        .cadence-conclusion {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(59, 130, 246, 0.06) 100%);
+            border: 1px solid rgba(20, 184, 166, 0.25); border-radius: var(--radius-lg);
+            padding: 2rem; margin: 2rem 0;
+        }
+        .cadence-conclusion .cc-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-teal); margin-bottom: 0.75rem; }
+        .cadence-conclusion .cc-text { font-size: 1.02rem; font-weight: 400; line-height: 1.95; }
+        .cadence-conclusion .cc-text em { color: var(--accent-teal); font-style: normal; font-weight: 700; }
+
+        /* ====== CONCEPT GRID ====== */
+        .concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .concept-card {
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md); padding: 1.25rem; transition: all 0.3s ease;
+        }
+        .concept-card:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+        .concept-card .cc-type { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-purple); margin-bottom: 0.5rem; }
+        .concept-card .cc-question { font-size: 0.76rem; color: var(--text-muted); margin-bottom: 0.4rem; font-style: italic; }
+        .concept-card .cc-answer { font-size: 0.88rem; font-weight: 600; line-height: 1.6; }
+
+        /* ====== REVISION ====== */
+        .revision-item {
+            display: flex; gap: 1rem; padding: 1.1rem 1.25rem;
+            background: var(--bg-card); border: 1px solid var(--border-subtle);
+            border-left: 3px solid var(--accent-pink); border-radius: var(--radius-sm); margin-bottom: 0.75rem;
+        }
+        .revision-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent-pink); flex-shrink: 0; }
+        .revision-body { font-size: 0.86rem; line-height: 1.8; color: var(--text-secondary); }
+        .revision-body strong { color: var(--text-primary); }
+
+        /* ====== FOOTER ====== */
+        .footer { text-align: center; padding: 4rem 2rem; border-top: 1px solid var(--border-subtle); margin-top: 4rem; }
+        .footer p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.9; }
+
+        .animate-on-scroll { opacity: 0; transform: translateY(24px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .section { padding: 3rem 1.25rem; }
+            .card { padding: 1.5rem; }
+            .data-table .label-cell { width: 130px; white-space: normal; }
+            .metric-grid { grid-template-columns: 1fr; }
+            .nsm-highlight { padding: 2rem 1.25rem; }
+            .nav-links { display: none; }
+            .hero { padding: 7rem 1.5rem 3rem; }
+            .hero-meta { gap: 1.25rem; }
+            .concept-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .concept-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <div class="nav-logo">Metrics Pack</div>
+        <ul class="nav-links">
+            <li><a href="#phase-0"><span class="nav-phase-num">00</span> Phạm vi</a></li>
+            <li><a href="#phase-1"><span class="nav-phase-num">01</span> Core Action</a></li>
+            <li><a href="#phase-2"><span class="nav-phase-num">02</span> Nature</a></li>
+            <li><a href="#phase-3"><span class="nav-phase-num">03</span> Metrics</a></li>
+            <li><a href="#phase-4"><span class="nav-phase-num">04</span> Retention</a></li>
+            <li><a href="#phase-5"><span class="nav-phase-num">05</span> Loop</a></li>
+            <li><a href="#phase-6"><span class="nav-phase-num">06</span> Tracking</a></li>
+            <li><a href="#phase-selfcheck"><span class="nav-phase-num">✓</span> Tự soi</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> Track 1 · Day 23 · Product Metrics Lab</div>
+        <h1>Metrics Pack —<br><span class="gradient-text">VLearn Slide-Aware Copilot</span></h1>
+        <p class="hero-subtitle">
+            Một chuỗi quyết định: core action nào chứng minh học viên thật sự nhận được giá trị →
+            nhịp tự nhiên của nó → bộ metric và retention đo được → loop là giả thuyết → tracking đủ để kiểm chứng.
+        </p>
+        <div class="hero-meta">
+            <div class="hero-meta-item"><span class="label">Nhóm</span><span class="value">JCungDuoc</span></div>
+            <div class="hero-meta-item"><span class="label">Dự án</span><span class="value">VLearn · Case C+A</span></div>
+            <div class="hero-meta-item"><span class="label">Persona</span><span class="value">Học viên ngại hỏi</span></div>
+            <div class="hero-meta-item"><span class="label">Cadence</span><span class="value">Per lab session</span></div>
+        </div>
+    </div>
+</header>
+
+<!-- ====== PHASE 0 ====== -->
+<section class="section animate-on-scroll" id="phase-0">
+    <div class="section-header">
+        <div class="section-phase phase-0">00 — Phạm vi</div>
+        <h2 class="section-title">Dự án, persona, core job</h2>
+        <p class="section-desc">
+            Một use case, một persona. Không phân tích cả sản phẩm VLearn — chỉ phân tích khoảnh khắc
+            học viên vướng một khái niệm <strong>ngay trong buổi lab đang diễn ra</strong>.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+        <table class="data-table">
+            <tr>
+                <td class="label-cell">Dự án</td>
+                <td>
+                    <strong>VLearn Slide-Aware Copilot</strong> — bản hợp nhất C + A chốt ở Next Change của Day 18:
+                    học viên hỏi AI bám ngữ cảnh slide đang chiếu, AI trả lời rồi <em>hỏi ngược kiểu Socratic</em>;
+                    chỉ khi cần người thật mới có một escalation <strong>ẩn danh do chính học viên bấm</strong>,
+                    mang theo cả câu hỏi lẫn tín hiệu hành vi.
+                </td>
+            </tr>
+            <tr>
+                <td class="label-cell">Persona (một)</td>
+                <td>
+                    <strong>Minh — học viên hướng nội lớp D303</strong>, ngồi trong phòng lab ~150 người,
+                    một Lab Coach, giảng viên vẫn đang giảng tiếp. Lịch lab cố định 2 buổi/tuần.
+                    <em>Không</em> lấy giảng viên hay Lab Coach làm persona của use case này — họ là actor phụ.
+                </td>
+            </tr>
+            <tr>
+                <td class="label-cell">Core job (lời user)</td>
+                <td>
+                    “<em>Tôi đang vướng một khái niệm trên slide vừa chiếu. Tôi muốn gỡ nó ngay để còn theo kịp
+                    phần giảng tiếp theo — mà không phải giơ tay trước 150 người, và không phải nhờ ai đó đi
+                    tới tận bàn mình.</em>”
+                </td>
+            </tr>
+            <tr>
+                <td class="label-cell">Ngoài phạm vi</td>
+                <td>Ôn tập sau buổi học · làm bài tập ở nhà · dashboard vận hành · luồng làm việc của Lab Coach.</td>
+            </tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="callout evidence">
+        <span class="co-title">Vì sao core job viết như vậy — evidence từ Day 17–18</span>
+        Không viết “cần một AI assistant thông minh” (đó là tính năng). Câu trên gom đúng ba ràng buộc
+        đã nghe từ người thật: <strong>“Mình ngại”</strong> (HV#1) · <strong>“nhiều lúc không biết cái để hỏi”</strong>,
+        <strong>“sợ mất thời gian chung”</strong> (HV#2) · <strong>“khá ngại khi phải nhờ 1 lab coach trực tiếp tới chỗ mình”</strong> (P3).
+        Chi phí xã hội và việc theo kịp bài là vấn đề — không phải thiếu công cụ.
+    </div>
+</section>
+
+<!-- ====== PHASE 1 ====== -->
+<section class="section animate-on-scroll" id="phase-1">
+    <div class="section-header">
+        <div class="section-phase phase-1">01 — Core Action</div>
+        <h2 class="section-title">Hành vi nào gần core value nhất</h2>
+        <p class="section-desc">
+            AI trả lời xong <strong>không</strong> có nghĩa là học viên đã nhận được giá trị. Giá trị là
+            <em>hiểu ra và theo kịp bài</em> — nên core action phải chạm được cả hai.
+        </p>
+    </div>
+
+    <div class="concept-grid">
+        <div class="concept-card">
+            <div class="cc-type">Core job</div>
+            <div class="cc-question">User đang cố hoàn thành việc gì?</div>
+            <div class="cc-answer">Gỡ chỗ vướng ngay tại lớp mà không lộ mặt, để không rơi lại phía sau</div>
+        </div>
+        <div class="concept-card">
+            <div class="cc-type">Core action</div>
+            <div class="cc-question">User làm gì để tiến tới giá trị?</div>
+            <div class="cc-answer">Mở một <em>stuck point</em> trên slide đang chiếu và đóng nó bằng cách vượt qua câu Socratic check</div>
+        </div>
+        <div class="concept-card">
+            <div class="cc-type">Core value</div>
+            <div class="cc-question">User nhận được lợi ích gì?</div>
+            <div class="cc-answer">Hiểu được khái niệm và quay lại kịp slide đang chiếu — không ai trong lớp biết mình đã hỏi</div>
+        </div>
+        <div class="concept-card">
+            <div class="cc-type">Core value event</div>
+            <div class="cc-question">Sự kiện nào chứng minh value đã xảy ra?</div>
+            <div class="cc-answer"><span class="mono">stuck_point_resolved</span></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">🎯</span> Core Action Card</div>
+        <div class="table-wrap">
+        <table class="data-table">
+            <tr><td class="label-cell">Target user</td><td>Học viên đang có mặt trong một buổi lab live có Copilot bật (persona Minh).</td></tr>
+            <tr><td class="label-cell">Core job</td><td>Gỡ ngay một khái niệm chưa hiểu trên slide đang chiếu, không phải hỏi công khai, không bị tụt lại.</td></tr>
+            <tr>
+                <td class="label-cell">Core action</td>
+                <td><strong>Đóng một stuck point:</strong> học viên mở stuck point ẩn danh trên slide đang chiếu (gõ câu hỏi hoặc chọn chip “mình không biết diễn đạt thế nào”), nhận câu trả lời bám ngữ cảnh slide, rồi <strong>trả lời được câu hỏi ngược Socratic</strong> để tự xác nhận đã hiểu.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Object</td>
+                <td>Một <span class="mono">stuck_point</span> — gắn với <span class="mono">session_id</span> × <span class="mono">deck_id</span> × <span class="mono">slide_id</span>, vòng đời <span class="mono">open → resolved | abandoned</span>.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Preconditions</td>
+                <td>Có buổi lab đang diễn ra · Copilot bật cho deck đó · học viên có mặt trong phiên · slide đang chiếu được đồng bộ về client.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Completion rule</td>
+                <td><strong>Stuck point chuyển <span class="mono">open → resolved</span></strong> khi học viên trả lời câu Socratic check và check trả về <span class="mono">passed = true</span>, hoặc học viên bấm “mình hiểu rồi” <em>sau khi đã trả lời</em>. Đóng panel mà chưa qua một trong hai điều kiện ⇒ <span class="mono">abandoned</span>, không tính.</td>
+            </tr>
+            <tr><td class="label-cell">Core value</td><td>Vá được lỗ hổng ngay tại chỗ, theo kịp phần giảng tiếp theo, danh tính không bị lộ.</td></tr>
+            <tr>
+                <td class="label-cell">Evidence of value</td>
+                <td>Stuck point <span class="mono">resolved</span> + học viên quay lại slide đang chiếu trong <strong>≤ 180 giây</strong> (thuộc tính <span class="mono">back_to_live_within_s</span>) — vừa hiểu, vừa theo kịp.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Candidate event</td>
+                <td><span class="mono">stuck_point_resolved</span> — kèm <span class="mono">slide_id</span>, <span class="mono">resolution_path</span>, <span class="mono">socratic_passed</span>, <span class="mono">back_to_live_within_s</span>, <span class="mono">time_to_resolve_s</span>.</td>
+            </tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">✅</span> Tự kiểm 5 tiêu chí — đạt 5/5</div>
+        <ul class="criteria-list">
+            <li class="criteria-item">
+                <div class="criteria-check">✓</div>
+                <div>
+                    <div class="criteria-label">1. Gần core value</div>
+                    <div class="criteria-reason">Action hoàn tất <em>chính là</em> lúc value xảy ra: đã hiểu (qua check) và còn kịp bài. Cách value đúng một bước xác nhận, không phải một chuỗi bước.</div>
+                </div>
+            </li>
+            <li class="criteria-item">
+                <div class="criteria-check">✓</div>
+                <div>
+                    <div class="criteria-label">2. Có thể lặp lại</div>
+                    <div class="criteria-reason">Mỗi buổi lab đều có slide mới vượt ngưỡng hiểu. Nhu cầu tái xuất hiện theo lịch lớp — team không phải bịa ra nó.</div>
+                </div>
+            </li>
+            <li class="criteria-item">
+                <div class="criteria-check">✓</div>
+                <div>
+                    <div class="criteria-label">3. Có thể quan sát</div>
+                    <div class="criteria-reason">Completion rule là một chuyển trạng thái trên object có ID — team biết chính xác giây nào nó hoàn tất, và biết cả khi nào nó <em>không</em> hoàn tất (<span class="mono">abandoned</span>).</div>
+                </div>
+            </li>
+            <li class="criteria-item">
+                <div class="criteria-check">✓</div>
+                <div>
+                    <div class="criteria-label">4. Có ý nghĩa</div>
+                    <div class="criteria-reason">Số stuck point <em>đóng bằng self-verification</em> tăng nghĩa là nhiều lỗ hổng được vá ngay tại lớp hơn. Đúng thứ 2/3 tester Day 18 tự nhắc tới: “hiểu được sự thiếu hụt kiến thức bản thân ở đâu”.</div>
+                </div>
+            </li>
+            <li class="criteria-item">
+                <div class="criteria-check">✓</div>
+                <div>
+                    <div class="criteria-label">5. Có thể tác động</div>
+                    <div class="criteria-reason">Team điều khiển được cả ba chốt: chi phí mở (một chạm, ẩn danh, có chip), chất lượng câu trả lời (retrieval bám slide — bộ eval Day 20–21), độ khó câu Socratic check.</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="callout danger">
+        <span class="co-title">Ba ứng viên đã bị loại — và vì sao</span>
+        <strong>“Hỏi AI” / “mở Copilot”</strong> → thao tác giao diện; hỏi xong mà vẫn không hiểu thì value bằng 0.
+        <strong>“Copilot trả lời xong”</strong> → output hệ thống, không phải hành vi của user; Day 18 đã tự cảnh báo prototype C
+        “thắng trong một cuộc thi C không thể thua” vì canned answer luôn đúng.
+        <strong>“Gửi escalation cho Lab Coach”</strong> → cả ba tester đều né việc có người tới tận bàn; đó là
+        <em>lối thoát khi hỏng</em>, nên nó là counter-metric chứ không phải core action.
+    </div>
+
+    <div class="gate-box">
+        <div class="gate-icon">1</div>
+        <div class="gate-content">
+            <h4>GATE 1 — Core action đứng vững</h4>
+            <p>Có actor (học viên trong phiên live), object (<span class="mono">stuck_point</span> có ID và vòng đời), completion rule (chuyển trạng thái <span class="mono">open → resolved</span> qua Socratic check). Đạt 5/5 tiêu chí tự kiểm. Không phải “mở app”, không phải “hỏi AI”.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== PHASE 2 ====== -->
+<section class="section animate-on-scroll" id="phase-2">
+    <div class="section-header">
+        <div class="section-phase phase-2">02 — Nature &amp; Cadence</div>
+        <h2 class="section-title">Nhu cầu tự nhiên xuất hiện bao lâu một lần</h2>
+        <p class="section-desc">
+            Nature trước, nurture sau. Nhịp của core action này <strong>không do người học tự phát</strong> —
+            nó do thời khóa biểu lớp và tốc độ giảng sinh ra. Đó là lý do mọi metric phía sau đo theo
+            <em>buổi lab</em>, không đo theo ngày.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">🌱</span> Action Nature Card</div>
+        <div class="table-wrap">
+        <table class="data-table">
+            <tr>
+                <td class="label-cell">Actor</td>
+                <td>Một học viên, nhưng đơn vị hành vi thật là <strong>learner × session</strong> — cùng một người, hai buổi lab khác nhau là hai bối cảnh khác nhau.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Intent</td>
+                <td>Không phải “muốn học thêm”. Là <strong>chống rơi lại</strong>: bài giảng vừa vượt quá ngưỡng hiểu và học viên có vài phút để bắt kịp trước khi slide sau chồng lên.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Trigger</td>
+                <td><strong>Sự kiện bên ngoài</strong> — giảng viên chuyển sang một slide/khái niệm vượt ngưỡng hiểu. Người học không tự khởi tạo nhu cầu này; họ chỉ phản ứng với nó. Không có buổi lab thì không có trigger.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Effort</td>
+                <td>Thao tác rất thấp (một chạm + một câu, 10–60 giây) nhưng <strong>chi phí nhận thức cao</strong>: phải diễn đạt được thắc mắc. HV#2: <em>“nhiều lúc không biết cái để hỏi”</em>. Đây là nơi chip “mình không biết diễn đạt thế nào” tồn tại.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Value timing</td>
+                <td><strong>Ngay lập tức</strong> (1–3 phút, trong chính buổi) và <strong>tích lũy</strong> qua khóa (Gap Map cá nhân dày lên). Không phụ thuộc người khác — đây chính là điểm khác biệt so với Option A đã bị loại.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">State</td>
+                <td>Stuck point được lưu → vào <strong>Gap Map cá nhân</strong> (slide, khái niệm, câu hỏi, câu trả lời đúng do chính học viên viết) → và đóng góp ẩn danh, đã gộp, vào slide heat map của giảng viên (ngưỡng ≥ 5 lượt).</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Dependency</td>
+                <td><strong>Phụ thuộc lịch lớp.</strong> Chỉ tồn tại khi có buổi lab đang chạy — D303 hiện 2 buổi/tuần. Cộng thêm phụ thuộc deck có nội dung đủ khó và retrieval có tài liệu cho slide đó.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Repeat condition</td>
+                <td>Buổi lab kế tiếp trong lịch khóa + xuất hiện khái niệm mới vượt ngưỡng hiểu + lần trước học viên đã <em>tin</em> rằng gỡ được và không bị lộ danh tính.</td>
+            </tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">🧭</span> Dạng hành vi</div>
+        <div class="pill-row">
+            <span class="pill">thói quen thường xuyên</span>
+            <span class="pill">tiến trình tích lũy</span>
+            <span class="pill">theo dự án</span>
+            <span class="pill">giao dịch</span>
+            <span class="pill">workflow của team</span>
+            <span class="pill chosen">phản ứng theo sự kiện, đóng khung trong chu kỳ lịch học</span>
+        </div>
+        <p style="font-size:0.87rem;color:var(--text-secondary);line-height:1.8;">
+            Bên trong một buổi: <strong>phản ứng theo sự kiện</strong> (slide khó xuất hiện → hành vi xảy ra).
+            Giữa các buổi: <strong>theo chu kỳ</strong> (lịch lab quyết định khi nào cơ hội tiếp theo tồn tại).
+            Nó <em>không</em> phải thói quen thường xuyên: học viên không có nhu cầu này vào ngày không lên lớp.
+        </p>
+    </div>
+
+    <div class="cadence-conclusion">
+        <div class="cc-label">Kết luận cadence</div>
+        <p class="cc-text">
+            Đối với <em>học viên hướng nội đang theo một khóa có lịch lab cố định (D303, 2 buổi/tuần)</em>,
+            core action <em>đóng một stuck point trên slide đang chiếu</em> thường xuất hiện
+            <em>vài lần bên trong một buổi lab, và chỉ khi có buổi lab đang diễn ra</em>
+            vì <em>nhu cầu do giảng viên chuyển slide sinh ra chứ không do người học tự phát — ngày không lên lớp thì không có slide đang chiếu để vướng</em>.
+            Do đó, nhịp đo phù hợp là <em>per attended lab session, cuộn lên theo tuần khóa học</em>,
+            ở cấp <em>learner × session</em>.
+        </p>
+    </div>
+
+    <div class="callout warning">
+        <span class="co-title">Ba nhịp đo đã bị loại — và vì sao</span>
+        <strong>DAU</strong> → sai bản chất: học viên không lên lớp 7 ngày/tuần, DAU sẽ đo thời khóa biểu chứ không đo sản phẩm.
+        <strong>D1 / D7 retention</strong> → với lịch 2 buổi/tuần, D7 rơi trúng hay trượt buổi học là chuyện ngẫu nhiên của lịch; hai lớp lịch khác nhau sẽ ra hai con số không so được với nhau.
+        <strong>Thời lượng dùng Copilot mỗi buổi</strong> → với sản phẩm AI, <em>xong nhanh hơn tốt hơn dùng lâu hơn</em>; ở đây dùng lâu có nghĩa là đang bỏ lỡ bài giảng — nên nó nằm ở nhóm counter-metric.
+    </div>
+
+    <div class="gate-box">
+        <div class="gate-icon">2</div>
+        <div class="gate-content">
+            <h4>GATE 2 — Cadence từ nature, không từ dashboard</h4>
+            <p>Kết luận viết theo đúng template, có mệnh đề “vì” đứng được (trigger là sự kiện bên ngoài, phụ thuộc lịch lớp). Nhịp đo <strong>per session</strong> khớp với dạng hành vi “phản ứng theo sự kiện trong chu kỳ lịch”, và mọi metric ở Phase 3 đều dùng lại đúng đơn vị này.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== PHASE 3 ====== -->
+<section class="section animate-on-scroll" id="phase-3">
+    <div class="section-header">
+        <div class="section-phase phase-3">03 — Metric System</div>
+        <h2 class="section-title">Đo core action bằng gì</h2>
+        <p class="section-desc">
+            Activation · Engagement · North Star · Leading indicators · Counter-metrics.
+            Mọi metric ở đây đều tính được từ bảng event ở mục 06 — không có metric nào không có event.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">🚀</span> Activation — Active ≠ Activated</div>
+        <div class="table-wrap">
+        <table class="data-table">
+            <tr>
+                <td class="label-cell">Start event</td>
+                <td><span class="mono">lab_session_joined</span> lần đầu — học viên có mặt trong buổi lab đầu tiên có Copilot bật. Đây là lúc đồng hồ bắt đầu chạy, không phải lúc tạo tài khoản.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">First value (a-ha)</td>
+                <td><strong>Stuck point đầu tiên được <span class="mono">resolved</span></strong> — đúng core value event, không phải “đã hỏi một câu”.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Activated</td>
+                <td><strong>≥ 1 stuck point resolved ở mỗi buổi trong 2 buổi lab đầu tiên mà học viên tham dự.</strong> Một lần có thể là tò mò; lặp lại ở buổi thứ hai mới là tín hiệu hành vi đã có chỗ đứng.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Time window</td>
+                <td><strong>Trong 2 buổi lab đã tham dự đầu tiên</strong> (không phải “trong 7 ngày”). Cùng đơn vị với kết luận cadence — học viên nghỉ một tuần không bị tính là trượt activation.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">Không dùng làm activation</td>
+                <td>Đăng nhập · xem hết onboarding tour · mở panel Copilot · gửi một câu hỏi. Cả bốn đều xảy ra <em>trước</em> khi có bất kỳ giá trị nào.</td>
+            </tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Engagement — chọn 2 góc đo</div>
+        <div class="metric-grid">
+            <div class="metric-card engagement">
+                <div class="metric-type">Frequency</div>
+                <div class="metric-name">Resolved stuck points / attended session (median)</div>
+                <div class="metric-desc">Trung vị số stuck point được đóng trong mỗi buổi lab học viên có mặt. Dùng median vì phân phối lệch — một buổi cực khó sẽ kéo mean đi.</div>
+                <div class="metric-why">Đo theo <strong>buổi</strong>, không theo ngày — đúng nhịp tự nhiên đã chốt ở Phase 2.</div>
+            </div>
+            <div class="metric-card engagement">
+                <div class="metric-type">Depth</div>
+                <div class="metric-name">Self-verified resolution rate</div>
+                <div class="metric-desc">% stuck point đã mở được đóng bằng <span class="mono">socratic_passed = true</span>, trên tổng số stuck point đã mở trong buổi. Phần còn lại là <span class="mono">abandoned</span> hoặc escalate rồi bỏ.</div>
+                <div class="metric-why">Phân biệt “đọc xong câu trả lời rồi thôi” với “tự chứng minh là mình đã hiểu” — đây mới là depth thật của một lần action.</div>
+            </div>
+        </div>
+        <div class="callout info" style="margin-bottom:0;">
+            <span class="co-title">Vì sao bỏ breadth</span>
+            Sản phẩm hiện chỉ có một workflow đáng kể (gỡ vướng tại lớp). Đo “bao nhiêu use case được dùng” lúc này
+            chỉ tạo ra một con số không dùng để quyết định điều gì. Thêm lại khi có workflow thứ hai (ôn tập sau buổi).
+        </div>
+    </div>
+
+    <div class="nsm-highlight">
+        <div class="nsm-label">North Star Metric</div>
+        <div class="nsm-formula">
+            Số stuck point được học viên <span style="color:var(--accent-teal)">tự xác nhận đã hiểu</span>
+            và <span style="color:var(--accent-teal)">quay lại slide đang chiếu trong ≤ 180 giây</span>,
+            tính trên <span style="color:var(--accent-teal)">mỗi buổi lab đã tham dự</span>, cuộn theo tuần khóa học
+        </div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:1.25rem;">
+            Tên gọi tắt: <span class="mono">VCPS</span> — Verified Catch-ups Per Session
+        </div>
+        <div class="nsm-components">
+            <div class="nsm-component">
+                <span class="comp-label">Unit of value</span>
+                Một stuck point được đóng — tức một lỗ hổng kiến thức được vá, không phải một câu hỏi được trả lời
+            </div>
+            <div class="nsm-component">
+                <span class="comp-label">Quality threshold</span>
+                <span class="mono">socratic_passed = true</span> <strong>và</strong> <span class="mono">back_to_live_within_s ≤ 180</span> — hiểu thật, và vẫn còn theo kịp bài
+            </div>
+            <div class="nsm-component">
+                <span class="comp-label">Frequency</span>
+                Trên mỗi buổi lab <em>đã tham dự</em>, cuộn lên theo tuần khóa học — nhịp lấy từ Phase 2
+            </div>
+        </div>
+    </div>
+
+    <div class="callout danger">
+        <span class="co-title">NSM này cố tình không phải “số lượt hỏi AI”</span>
+        Số lượt hỏi là số lượng thuần, không có ngưỡng chất lượng, và game được trong một buổi chiều:
+        chia nhỏ câu hỏi, gợi ý hỏi thêm, hạ chi phí hỏi tới mức vô nghĩa. Chỉ số ấy cũng tăng lên khi
+        <em>câu trả lời của AI tệ đi</em> — user phải hỏi lại nhiều lần. Ngưỡng chất lượng ở trên chặn đúng cả hai đường đó.
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">📈</span> Leading indicators (3)</div>
+        <div class="metric-grid">
+            <div class="metric-card leading">
+                <div class="metric-type">Leading 1</div>
+                <div class="metric-name">Median time-to-first-stuck-point trong buổi</div>
+                <div class="metric-desc">Từ <span class="mono">lab_session_joined</span> đến <span class="mono">stuck_point_opened</span> đầu tiên của buổi đó.</div>
+                <div class="metric-why"><strong>Vì sao dự báo:</strong> mở sớm nghĩa là rào cản xã hội đã hạ và học viên tin đường này an toàn. Người mở muộn thường đã tụt lại quá xa để cứu — và buổi sau sẽ không mở nữa.</div>
+            </div>
+            <div class="metric-card leading">
+                <div class="metric-type">Leading 2</div>
+                <div class="metric-name">Chip-path resolution rate</div>
+                <div class="metric-desc">% stuck point mở bằng chip “mình không biết diễn đạt thế nào” (<span class="mono">input_mode = chip</span>) mà vẫn đi tới <span class="mono">resolved</span>.</div>
+                <div class="metric-why"><strong>Vì sao dự báo:</strong> rào cản lớn nhất trong evidence Day 17 là không diễn đạt nổi thắc mắc. Nếu con đường không-cần-diễn-đạt vẫn đóng được stuck point, học viên còn lý do quay lại đúng vào lần họ mơ hồ nhất — tức là lần khó giữ nhất.</div>
+            </div>
+            <div class="metric-card leading">
+                <div class="metric-type">Leading 3</div>
+                <div class="metric-name">Open → resolved completion rate trong buổi</div>
+                <div class="metric-desc">% stuck point mở ra được đóng trước khi buổi kết thúc (phần bù là <span class="mono">abandoned</span>).</div>
+                <div class="metric-why"><strong>Vì sao dự báo:</strong> một lần mở mà không đóng được là một trải nghiệm thất bại có chi phí xã hội bằng 0 nhưng chi phí niềm tin rất cao — nó dự báo trực tiếp việc buổi sau học viên không mở nữa.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">⚠️</span> Counter-metrics (4) — VCPS tăng thì cái gì không được xấu đi</div>
+        <div class="metric-grid">
+            <div class="metric-card counter">
+                <div class="metric-type">Counter 1 · chất lượng</div>
+                <div class="metric-name">Grounded-answer rate trên mẫu resolved</div>
+                <div class="metric-desc">Lấy mẫu ngẫu nhiên stuck point đã resolved mỗi tuần, chấm bằng bộ eval Day 20–21 (code check + LLM judge đã calibrate + nhãn người). Đo tỉ lệ câu trả lời bám đúng nguồn của slide.</div>
+                <div class="metric-why">Chặn kịch bản xấu nhất: VCPS tăng vì AI trả lời trôi chảy nhưng sai — học viên “hiểu” một thứ không đúng.</div>
+            </div>
+            <div class="metric-card counter">
+                <div class="metric-type">Counter 2 · độ khó check</div>
+                <div class="metric-name">Socratic first-attempt pass rate</div>
+                <div class="metric-desc">Nếu vượt <strong>90%</strong>, câu hỏi ngược đang quá dễ. Ngưỡng lành mạnh đặt tạm ở 55–85%, xem lại mỗi 2 tuần.</div>
+                <div class="metric-why">Quality threshold của NSM nằm trong tay chính team — đây là cái chốt chống việc tự nới ngưỡng để đẩy NSM lên.</div>
+            </div>
+            <div class="metric-card counter">
+                <div class="metric-type">Counter 3 · chi phí chú ý</div>
+                <div class="metric-name">Time off live slide / attended session</div>
+                <div class="metric-desc">Tổng thời gian học viên rời khỏi slide đang chiếu vì Copilot, trung vị theo buổi. Không được tăng khi VCPS tăng.</div>
+                <div class="metric-why">Copilot phải là đường tắt trở lại bài, không phải một cái hố thời gian. Xong nhanh hơn tốt hơn dùng lâu hơn.</div>
+            </div>
+            <div class="metric-card counter">
+                <div class="metric-type">Counter 4 · vận hành</div>
+                <div class="metric-name">Escalation rate &amp; cost / resolved stuck point</div>
+                <div class="metric-desc">% stuck point phải đẩy sang người thật, và chi phí model trung bình cho mỗi stuck point được đóng.</div>
+                <div class="metric-why">Escalation tăng nghĩa là Copilot đang đẩy tải sang một Lab Coach vốn đã lo cho ~150 học viên. Chi phí/lần tăng nghĩa là VCPS đang được mua bằng token, không bằng thiết kế.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== PHASE 4 · RETENTION ====== -->
+<section class="section animate-on-scroll" id="phase-4">
+    <div class="section-header">
+        <div class="section-phase phase-3">04 — Retention Definition</div>
+        <h2 class="section-title">Quay lại được tính thế nào</h2>
+        <p class="section-desc">
+            Viết đủ sáu thành phần. Thiếu một thành phần thì hai người nhìn cùng một dashboard sẽ rút ra
+            hai kết luận khác nhau — và ở đây thành phần dễ sai nhất là <strong>window</strong>.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-title"><span class="icon">🔁</span> Sáu thành phần</div>
+        <div class="table-wrap">
+        <table class="data-table">
+            <tr>
+                <td class="label-cell">1 · Unit</td>
+                <td><strong>Learner</strong> (<span class="mono">user_id</span>) trong bối cảnh một khóa (<span class="mono">course_id</span>). Không phải account, không phải lớp — câu hỏi cần trả lời là “người này còn dùng nữa không”, không phải “lớp này còn hoạt động không”.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">2 · Cohort entry</td>
+                <td>Learner vào cohort tại <strong><span class="mono">stuck_point_resolved</span> đầu tiên</strong> của họ. Cohort được gắn nhãn theo <em>tuần khóa học</em> lúc đó (W1, W2…). Vào cohort bằng first value, không bằng signup — người chưa từng nhận value thì không có gì để “giữ lại”.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">3 · Return event</td>
+                <td><strong><span class="mono">stuck_point_resolved</span></strong> — đúng core value event. <em>Không</em> tính <span class="mono">lab_session_joined</span>, không tính mở panel, không tính gửi câu hỏi.</td>
+            </tr>
+            <tr>
+                <td class="label-cell">4 · Window</td>
+                <td>
+                    <strong>Session-based bracket:</strong> S+1 = buổi lab kế tiếp mà learner <em>có mặt</em>; S+2, S+3 tương tự.
+                    Báo cáo phụ cuộn theo tuần khóa (W+1, W+2) để so với lịch 2 buổi/tuần.
+                    <strong>Không dùng D1/D7/D30</strong> — lý do ở callout bên dưới.
+                </td>
+            </tr>
+            <tr>
+                <td class="label-cell">5 · Threshold</td>
+                <td>
+                    <strong>Chính:</strong> ≥ 1 resolved stuck point trong buổi S+1 (một lần là đủ — một buổi chỉ dài ~90 phút và không phải buổi nào cũng có chỗ vướng).<br>
+                    <strong>Phụ (bền hơn):</strong> ≥ 1 resolved trong ít nhất <strong>2 trong 3</strong> buổi tham dự kế tiếp — dùng để đọc xu hướng, tránh nhiễu của một buổi dễ.
+                </td>
+            </tr>
+            <tr>
+                <td class="label-cell">6 · Segment</td>
+                <td>
+                    Learner <strong>đã activated</strong>, thuộc lớp có Copilot bật, tính trên <strong>các buổi lab họ thực sự có mặt</strong>.
+                    Loại: tài khoản giảng viên, Lab Coach, tài khoản nội bộ, bot (<span class="mono">actor_role</span>).
+                    Cắt theo cohort tuần khóa và theo lớp (D303 / D304) khi n ≥ 30.
+                </td>
+            </tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="callout warning">
+        <span class="co-title">Mẫu số là “buổi đã tham dự”, không phải “ngày trên lịch”</span>
+        Nếu lấy mẫu số là toàn bộ learner theo ngày, sản phẩm sẽ bị trừ điểm cho những thứ nó không điều khiển:
+        học viên nghỉ ốm, lớp đổi lịch, tuần nghỉ giữa khóa. Retention ở đây trả lời đúng một câu:
+        <strong>khi cơ hội quay lại thực sự tồn tại, learner có quay lại và nhận value nữa không.</strong>
+        Vắng mặt được theo dõi riêng bằng attendance, không trộn vào retention sản phẩm.
+    </div>
+
+    <div class="callout info">
+        <span class="co-title">So retention với ba mốc, không so với con số cứng</span>
+        <strong>① Natural cycle</strong> — so với chính lịch lab 2 buổi/tuần: retention S+1 phải đọc trên trục buổi, không trên trục ngày.
+        <strong>② Cohort đúng segment</strong> — cohort W1 (chưa có Gap Map tích lũy) không so trực tiếp với cohort W5.
+        <strong>③ Benchmark category</strong> — công cụ học tập dùng <em>trong giờ học</em>, không so với app tiêu dùng hằng ngày.
+    </div>
+
+    <div class="gate-box">
+        <div class="gate-icon">3</div>
+        <div class="gate-content">
+            <h4>GATE 3 — Metric tính được, retention đủ nghĩa</h4>
+            <p>Activation có start event + activation event + time window (tính bằng buổi). Retention đủ 6 thành phần và window khớp cadence per-session của Phase 2. NSM đúng công thức ba thành phần (unit of value + quality threshold + frequency). Có 4 counter-metric, trong đó ít nhất một cái canh đúng thứ dễ bị game nhất — độ khó của Socratic check.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== PHASE 5 · LOOP ====== -->
+<section class="section animate-on-scroll" id="phase-5">
+    <div class="section-header">
+        <div class="section-phase phase-4">05 — Product Loop</div>
+        <h2 class="section-title">Loop nào di chuyển metric đó</h2>
+        <p class="section-desc">
+            Loop suy ra từ metric, không bắt đầu bằng streak hay badge. Loại loop:
+            <strong>event-response, đóng khung trong chu kỳ lịch học</strong> — trigger có sẵn ngoài đời,
+            việc của sản phẩm là hạ chi phí để hành vi xảy ra và giữ lại state khiến lần sau rẻ hơn.
+        </p>
+    </div>
+
+    <div class="loop-container">
+        <div class="loop-divider">Chu kỳ 1 · Buổi lab thứ n</div>
+        <div class="loop-cycle">
+            <div class="loop-step">
+                <div class="loop-step-icon trigger">📽️</div>
+                <div class="loop-step-label">Natural trigger</div>
+                <div class="loop-step-text">Giảng viên chuyển sang Slide 14 — Backpropagation, phép Transpose. Minh mất mạch.</div>
+            </div>
+            <div class="loop-arrow">→</div>
+            <div class="loop-step">
+                <div class="loop-step-icon action">🎯</div>
+                <div class="loop-step-label">Core action</div>
+                <div class="loop-step-text">Mở stuck point ẩn danh trên slide đang chiếu; không diễn đạt được thì chọn chip. Copilot trả lời bám slide rồi hỏi ngược.</div>
+            </div>
+            <div class="loop-arrow">→</div>
+            <div class="loop-step">
+                <div class="loop-step-icon value">💡</div>
+                <div class="loop-step-label">Immediate value</div>
+                <div class="loop-step-text">Trả lời đúng câu hỏi ngược → tự biết mình đã hiểu. Quay lại slide đang chiếu sau 2 phút, không ai trong lớp biết.</div>
+            </div>
+            <div class="loop-arrow">→</div>
+            <div class="loop-step">
+                <div class="loop-step-icon state">💾</div>
+                <div class="loop-step-label">Saved state</div>
+                <div class="loop-step-text">Stuck point vào <span class="mono">Gap Map</span> cá nhân (slide + khái niệm + câu trả lời do chính Minh viết). Gộp ẩn danh vào heat map slide khi ≥ 5 lượt.</div>
+            </div>
+        </div>
+
+        <div class="loop-bridge">
+            <strong>Reason to return — nếu xóa sạch notification thì còn gì?</strong>
+            Còn ba thứ, và không thứ nào là push: <strong>①</strong> buổi lab kế tiếp vẫn diễn ra theo thời khóa biểu và
+            khái niệm mới vẫn chồng lên khái niệm cũ — trigger nằm ngoài sản phẩm; <strong>②</strong> lần trước Minh đã có
+            bằng chứng đường này gỡ được thật và ẩn danh không bị phá vỡ — chi phí tâm lý cho lần mở thứ hai thấp hơn hẳn lần đầu;
+            <strong>③</strong> Gap Map là tài sản của riêng Minh, mở Copilot ở buổi sau là chỗ duy nhất đọc lại được nó.
+        </div>
+
+        <div class="loop-divider">Chu kỳ 2 · Buổi lab thứ n+1</div>
+        <div class="loop-cycle">
+            <div class="loop-step">
+                <div class="loop-step-icon trigger">📽️</div>
+                <div class="loop-step-label">Next natural trigger</div>
+                <div class="loop-step-text">Buổi kế tiếp dùng lại Transpose để dựng chain rule. Vướng lần nữa, nhưng lần này có ngôn ngữ để gọi tên chỗ vướng.</div>
+            </div>
+            <div class="loop-arrow">→</div>
+            <div class="loop-step">
+                <div class="loop-step-icon action">🎯</div>
+                <div class="loop-step-label">Core action lặp</div>
+                <div class="loop-step-text">Mở stuck point nhanh hơn: Copilot mở sẵn ngữ cảnh “buổi trước bạn đã gỡ Transpose”, câu hỏi bật ra dễ hơn.</div>
+            </div>
+            <div class="loop-arrow">→</div>
+            <div class="loop-step">
+                <div class="loop-step-icon value">💡</div>
+                <div class="loop-step-label">Repeat value</div>
+                <div class="loop-step-text">Gỡ xong nhanh hơn lần trước, vẫn theo kịp bài — và thấy rõ hai chỗ vướng nối vào nhau thành một mạch.</div>
+            </div>
+            <div class="loop-arrow">→</div>
+            <div class="loop-step">
+                <div class="loop-step-icon state">💾</div>
+                <div class="loop-step-label">Investment dày lên</div>
+                <div class="loop-step-text">Gap Map thành tài liệu ôn tập cá nhân trước kỳ đánh giá. Bỏ Copilot giờ đồng nghĩa bỏ lại bản đồ lỗ hổng của chính mình.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hypothesis-box">
+        <div class="hyp-label">Metric hypothesis</div>
+        <p class="hyp-text">
+            Nếu loop này hoạt động, metric <em>S+1 Session Retention</em> (tỉ lệ learner đã activated có ≥ 1
+            <span class="mono">stuck_point_resolved</span> ở buổi lab kế tiếp mà họ tham dự) sẽ thay đổi theo hướng
+            <em>tăng ≥ 15 điểm phần trăm so với baseline của cohort chưa có Gap Map</em>, kèm
+            <em>median time-to-first-stuck-point giảm xuống dưới 20 phút</em>, trong
+            <em>3 buổi lab liên tiếp (khoảng 2 tuần khóa học)</em>, vì
+            <em>saved state hạ đúng hai chi phí đã chặn hành vi ở Day 17 — chi phí diễn đạt thắc mắc và chi phí niềm tin
+            vào tính ẩn danh — chứ không phải vì được nhắc quay lại</em>.
+        </p>
+    </div>
+
+    <div class="callout warning">
+        <span class="co-title">Điều kiện để hypothesis này đọc được</span>
+        Con số 15 điểm phần trăm <strong>chưa có baseline đo thật</strong> — nó là ngưỡng nhóm đặt ra trước để tự ràng buộc,
+        không phải kết quả. Việc đầu tiên khi tracking chạy là đo S+1 retention của cohort W1 (chạy với Gap Map tắt)
+        để có mốc so. Nếu retention tăng nhưng <strong>time-to-first-stuck-point không giảm</strong>, loop có thể đang được kéo
+        bởi thứ khác (deck khó lên, lớp đông hơn) — khi đó hypothesis bị bác, không phải được xác nhận một nửa.
+    </div>
+</section>
+
+<!-- ====== PHASE 6 · TRACKING ====== -->
+<section class="section animate-on-scroll" id="phase-6">
+    <div class="section-header">
+        <div class="section-phase phase-4">06 — Tracking</div>
+        <h2 class="section-title">Đo bằng event gì</h2>
+        <p class="section-desc">
+            8 event, mỗi event đại diện <strong>một điều đã xảy ra</strong> — không phải ý định của user.
+            Mỗi dòng map về ít nhất một metric ở mục 03–04; event nào không map được đã bị bỏ.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width:210px;">Tên event</th>
+                    <th>Ý nghĩa (điều đã xảy ra)</th>
+                    <th>Thời điểm ghi nhận</th>
+                    <th style="width:200px;">Metric sử dụng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="mono">lab_session_joined</span></td>
+                    <td>Learner thực sự có mặt trong một buổi lab live có Copilot bật.</td>
+                    <td>Sau 60 giây liên tục ở trong phiên live đúng <span class="mono">deck_id</span> — không bắn khi chỉ mở nhầm tab.</td>
+                    <td>Mẫu số retention (attended sessions) · start event của activation</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">stuck_point_opened</span></td>
+                    <td>Learner mở một stuck point ẩn danh trên slide đang chiếu.</td>
+                    <td>Khi bản ghi <span class="mono">stuck_point</span> được tạo với <span class="mono">slide_id</span> đang chiếu và trạng thái <span class="mono">open</span>.</td>
+                    <td>Leading 1 (time-to-first) · Leading 3 (completion rate) · mẫu số depth</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">stuck_point_question_submitted</span></td>
+                    <td>Learner đã mô tả được chỗ vướng — bằng chữ hoặc bằng chip.</td>
+                    <td>Khi payload được server nhận, kèm <span class="mono">input_mode = typed | chip</span>.</td>
+                    <td>Leading 2 (chip-path resolution rate)</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">copilot_answer_delivered</span></td>
+                    <td><strong>Output hệ thống</strong> — copilot đã trả xong câu trả lời bám slide. Đây <em>không</em> phải core value event.</td>
+                    <td>Khi token cuối cùng được render xong ở client; kèm <span class="mono">latency_ms</span>, <span class="mono">cost_usd</span>, <span class="mono">sources[]</span>.</td>
+                    <td>Counter 1 (lấy mẫu grounded-answer) · Counter 4 (cost / resolved)</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">socratic_check_answered</span></td>
+                    <td>Learner đã trả lời câu hỏi ngược của copilot.</td>
+                    <td>Khi câu trả lời được chấm xong; kèm <span class="mono">passed</span>, <span class="mono">attempt_no</span>.</td>
+                    <td>Engagement depth · Counter 2 (first-attempt pass rate)</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">stuck_point_resolved</span></td>
+                    <td><span class="tag green">CORE VALUE EVENT</span> Lỗ hổng đã được vá và learner tự xác nhận điều đó.</td>
+                    <td>Đúng lúc chuyển trạng thái <span class="mono">open → resolved</span>, một lần duy nhất cho mỗi <span class="mono">stuck_point_id</span>; kèm <span class="mono">back_to_live_within_s</span>, <span class="mono">time_to_resolve_s</span>, <span class="mono">resolution_path</span>.</td>
+                    <td><strong>NSM (VCPS)</strong> · activation event · return event của retention · engagement frequency</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">stuck_point_abandoned</span></td>
+                    <td>Stuck point đã mở nhưng không bao giờ được đóng — một lần thất bại có thật.</td>
+                    <td>Do job kết thúc phiên bắn, cho mọi stuck point còn <span class="mono">open</span> khi buổi lab đóng; kèm <span class="mono">last_stage</span>.</td>
+                    <td>Leading 3 (phần bù của completion rate) · chẩn đoán churn</td>
+                </tr>
+                <tr>
+                    <td><span class="mono">human_escalation_sent</span></td>
+                    <td>Learner tự bấm gửi escalation ẩn danh kèm câu hỏi và ngữ cảnh hành vi.</td>
+                    <td>Khi server ack payload; kèm <span class="mono">attached_signals[]</span>, <span class="mono">anonymity_ok</span>.</td>
+                    <td>Counter 4 (escalation rate) · giám sát tải Lab Coach</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div class="acceptance-box">
+            <h4>Tiêu chí nghiệm thu (4)</h4>
+            <div class="acceptance-item">
+                <span class="ac-num">1.</span>
+                Với mỗi <span class="mono">stuck_point_id</span>, hệ thống chỉ ghi <span class="mono">stuck_point_resolved</span>
+                <strong>đúng một lần</strong>, tại lần chuyển trạng thái <span class="mono">open → resolved</span>.
+                Tải lại trang, mất mạng rồi retry, hay autosave <strong>không được</strong> tạo thêm event cho cùng lần chuyển trạng thái đó;
+                mọi lần gửi lại phải mang cùng <span class="mono">event_id</span> để pipeline khử trùng.
+            </div>
+            <div class="acceptance-item">
+                <span class="ac-num">2.</span>
+                <span class="mono">stuck_point_resolved</span> chỉ được bắn khi <span class="mono">socratic_check_answered.passed = true</span>,
+                <strong>hoặc</strong> learner bấm “mình hiểu rồi” <em>sau khi đã trả lời câu hỏi ngược</em>.
+                Nó <strong>không bao giờ</strong> được bắn tại thời điểm <span class="mono">copilot_answer_delivered</span>.
+                Nếu learner đóng panel mà chưa qua một trong hai điều kiện, phiên kết thúc phải sinh
+                <span class="mono">stuck_point_abandoned</span> — không phải <span class="mono">resolved</span>.
+            </div>
+            <div class="acceptance-item">
+                <span class="ac-num">3.</span>
+                Với mỗi cặp <span class="mono">user_id</span> và <span class="mono">session_id</span>, chỉ ghi một
+                <span class="mono">lab_session_joined</span>, kể cả khi learner reload, rớt mạng rồi vào lại, hoặc mở hai thiết bị.
+                Tài khoản giảng viên, Lab Coach, tài khoản nội bộ và bot bị loại khỏi mọi metric qua <span class="mono">actor_role</span>,
+                loại ở tầng pipeline chứ không loại thủ công trên dashboard.
+            </div>
+            <div class="acceptance-item">
+                <span class="ac-num">4.</span>
+                Ngưỡng ẩn danh: mọi bảng gộp theo <span class="mono">slide_id</span> × <span class="mono">session_id</span>
+                chỉ được render khi có <strong>≥ 5 learner riêng biệt</strong>. Dưới ngưỡng, ô hiển thị “chưa đủ dữ liệu”
+                — không hiển thị số, không hiển thị nội dung câu hỏi. Đây là ràng buộc từ thiết kế Day 18, không phải tùy chọn.
+            </div>
+        </div>
+    </div>
+
+    <div class="gate-box">
+        <div class="gate-icon">4</div>
+        <div class="gate-content">
+            <h4>GATE 4 — Loop nối metric, event nối loop</h4>
+            <p>Loop có đủ 2 chu kỳ với reason to return không dựa vào notification. Metric hypothesis trỏ thẳng về S+1 Session Retention ở mục 04. Cả 8 event đều map về ít nhất một metric ở mục 03–04, và ngược lại mọi metric ở mục 03–04 đều có event để tính — kể cả counter-metric.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== SELF CHECK ====== -->
+<section class="section animate-on-scroll" id="phase-selfcheck">
+    <div class="section-header">
+        <div class="section-phase phase-5">✓ — Tự soi lỗi</div>
+        <h2 class="section-title">Bảy câu kiểm lỗi kinh điển</h2>
+        <p class="section-desc">Đối chiếu từng dòng với chính bài này, không trả lời chung chung.</p>
+    </div>
+
+    <div class="selfcheck-grid">
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Core action không phải thao tác giao diện hay output hệ thống?</strong>
+                <span>Đúng. Core action là chuyển trạng thái của một object do học viên tạo ra và tự xác nhận. “Copilot trả lời xong” bị đẩy xuống làm event phục vụ counter-metric.</span>
+            </div>
+        </div>
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Activation không phải “xem hết hướng dẫn” hay “đăng nhập”?</strong>
+                <span>Đúng. Activation = stuck point được resolved ở mỗi buổi trong 2 buổi tham dự đầu tiên. Onboarding và login bị liệt kê rõ trong nhóm “không dùng”.</span>
+            </div>
+        </div>
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Frequency không cao hơn nhu cầu thật?</strong>
+                <span>Đúng. Không có DAU, không có mục tiêu daily. Nhịp cao nhất là “vài lần trong một buổi lab”, và buổi lab chỉ có 2 lần/tuần theo lịch lớp.</span>
+            </div>
+        </div>
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Loop có reason to return ngoài notification?</strong>
+                <span>Đúng — ba thứ: lịch lab (trigger nằm ngoài sản phẩm), bằng chứng lần trước gỡ được và không lộ danh tính, và Gap Map cá nhân tích lũy. Xóa hết notification loop vẫn chạy.</span>
+            </div>
+        </div>
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Retention không dùng chung một window cho mọi cadence?</strong>
+                <span>Đúng. Window là session-based (S+1, S+2, S+3), cuộn phụ theo tuần khóa. D1/D7/D30 bị loại có lý do ghi rõ ở mục 02 và 04.</span>
+            </div>
+        </div>
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Mọi event đều map về một metric?</strong>
+                <span>Đúng — cột cuối bảng mục 06. Các event từng có trong bản nháp mà không map được (mở panel, cuộn slide, hover định nghĩa) đã bị bỏ.</span>
+            </div>
+        </div>
+        <div class="selfcheck-item">
+            <div class="selfcheck-icon">✅</div>
+            <div class="selfcheck-text">
+                <strong>Metric nào cũng có event để tính nó?</strong>
+                <span>Đúng, kể cả bốn counter-metric: chất lượng lấy mẫu từ <span class="mono">copilot_answer_delivered</span>, độ khó check từ <span class="mono">socratic_check_answered</span>, chi phí chú ý từ <span class="mono">back_to_live_within_s</span>, tải người thật từ <span class="mono">human_escalation_sent</span>.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="callout danger" style="margin-top:2rem;">
+        <span class="co-title">Điều pack này chưa chứng minh được</span>
+        <strong>① Core action đang đứng trên một phát hiện chưa kiểm chứng độc lập.</strong> Socratic verification được chọn làm
+        completion rule vì 2/3 tester Day 18 nhắc tới khả năng tự chẩn đoán — nhưng cả hai đều thao tác trên prototype C
+        dùng canned answer luôn đúng. Nếu câu trả lời sai mà check vẫn pass thì “tự xác nhận đã hiểu” chỉ là tự xác nhận
+        đã hiểu một thứ không đúng, và NSM sẽ tăng đẹp trong khi sản phẩm đang dạy sai. Đây là lý do Counter 1 tồn tại.<br><br>
+        <strong>② Sáu trên bảy ngưỡng trong pack là giả định, chưa đo.</strong> 180 giây · 2 buổi · 15 điểm phần trăm ·
+        20 phút · 90% · dải 55–85% đều là số đặt trước để tự ràng buộc. Chỉ ngưỡng ẩn danh ≥ 5 lượt là có gốc — nó đến từ
+        thiết kế Option B ở Day 18.<br><br>
+        <strong>③ Chưa có một learner thật nào đi qua loop này.</strong> Gap Map chưa được build; S+1 retention chưa từng
+        được đo ở bất kỳ cohort nào. Toàn bộ pack là <em>thiết kế đo lường cho một thứ chưa được đo</em> — không phải kết quả.
+    </div>
+
+    <div class="card" style="margin-top:2rem;">
+        <div class="card-title"><span class="icon">📝</span> Revision log — những chỗ đã phải sửa</div>
+        <div class="revision-item">
+            <div class="revision-num">R1</div>
+            <div class="revision-body">
+                <strong>Đổi core action:</strong> bản nháp đầu là “học viên hỏi Copilot một câu”. Bỏ vì đó là thao tác giao diện,
+                và vì feedback Day 18 chỉ ra thứ tạo giá trị là <em>Socratic verification</em> chứ không phải câu trả lời —
+                2/3 tester tự nhắc tới khả năng “hiểu được sự thiếu hụt kiến thức của mình ở đâu”. Core action mới lấy
+                việc tự xác nhận làm completion rule.
+            </div>
+        </div>
+        <div class="revision-item">
+            <div class="revision-num">R2</div>
+            <div class="revision-body">
+                <strong>Đổi retention window:</strong> bản nháp dùng D7 retention. Bỏ vì lịch lab 2 buổi/tuần khiến D7 đo
+                thời khóa biểu chứ không đo sản phẩm — hai lớp lịch khác nhau sẽ ra hai con số không so được.
+                Thay bằng session-based bracket S+1/S+2/S+3.
+            </div>
+        </div>
+        <div class="revision-item">
+            <div class="revision-num">R3</div>
+            <div class="revision-body">
+                <strong>Đổi mẫu số retention</strong> từ “toàn bộ learner trong cohort theo lịch” sang
+                <strong>“các buổi lab learner thực sự tham dự”</strong>. Vắng mặt vì lịch cá nhân không phải churn sản phẩm;
+                trộn hai thứ lại sẽ khiến team đi sửa nhầm vấn đề.
+            </div>
+        </div>
+        <div class="revision-item">
+            <div class="revision-num">R4</div>
+            <div class="revision-body">
+                <strong>Đổi NSM:</strong> bản nháp là “số stuck point được gỡ mỗi tuần” — số lượng thuần, thiếu ngưỡng chất lượng.
+                Thêm hai điều kiện <span class="mono">socratic_passed</span> và <span class="mono">back_to_live_within_s ≤ 180</span>,
+                đồng thời thêm counter-metric canh chính độ khó của Socratic check, vì ngưỡng chất lượng nằm trong tay team thì team có thể tự nới nó.
+            </div>
+        </div>
+    </div>
+
+    <div class="gate-box">
+        <div class="gate-icon">5</div>
+        <div class="gate-content">
+            <h4>GATE 5 — Bài sạch lỗi kinh điển</h4>
+            <p>Đã đối chiếu đủ 7 câu tự soi. Bốn chỗ phải sửa được ghi lại kèm lý do ở Revision log. Không có lựa chọn nào “phá rule” cần giữ nguyên.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>
+        <strong>Metrics Pack · Track 1 — Day 23</strong> · Nhóm JCungDuoc — Trần Vương Hưng (2A202601789) ·
+        Hồ Phạm Đức Linh (2A202601533) · Lê Hoàng Việt (2A202601543)<br>
+        Dự án VLearn Slide-Aware Copilot — nối tiếp Case C (Day 17–18) và bộ eval AI Tutor (Day 20–21).<br>
+        Core action → cadence → metric &amp; retention → loop → tracking. Mỗi mục dùng lại kết quả của mục trước.
+    </p>
+</footer>
+
+<script>
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+
+    // Active nav link
+    const sections = Array.from(document.querySelectorAll('section[id], header'));
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+
+    const setActive = () => {
+        const y = window.scrollY + 120;
+        let current = null;
+        sections.forEach((s) => { if (s.offsetTop <= y) current = s.id; });
+        navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+    };
+
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+</script>
+
+</body>
+</html>
