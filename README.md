@@ -30,9 +30,11 @@
 | | |
 |---|---|
 | **Bản trong repo này** | [metrics-pack.html](metrics-pack.html) — mở trực tiếp bằng browser, không cần cài gì |
-| **Link đã cấp quyền xem** | ⬜ **CẦN ĐIỀN** — dán link FigJam / Notion / Artifact tại đây sau khi upload và bật quyền xem cho người ngoài |
+| **Link xem online** | https://claude.ai/code/artifact/a9c57b15-8806-4c18-a998-dade0b2024b2 |
 
-`metrics-pack.html` là một file HTML tự chứa (self-contained, 1336 dòng, không phụ thuộc CDN ngoài trừ Google Fonts). Cấu trúc đúng sáu mục theo yêu cầu của brief:
+> ⬜ **Bật quyền xem trước khi nộp** — link trên mặc định ở chế độ riêng tư. Mở artifact, dùng menu Share để cấp quyền xem cho người ngoài, nếu không coach mở link sẽ báo không có quyền.
+
+`metrics-pack.html` là một file HTML tự chứa (self-contained, 1367 dòng, không phụ thuộc CDN ngoài trừ Google Fonts). Cấu trúc đúng sáu mục theo yêu cầu của brief:
 
 | Mục | Nội dung | Anchor |
 |---|---|---|
