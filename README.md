@@ -144,22 +144,6 @@ Nó là bằng chứng cho counter-metric, không phải bằng chứng cho valu
 
 ---
 
-## 9. Checklist trước khi nộp
-
-- [x] Repo đúng tên `Track1_Day23_2A202601789_TranVuongHung`
-- [x] Tệp trình bày đủ 6 mục (00–06), mỗi mục dùng lại kết quả mục trước
-- [x] Core Action Card có kết quả tự kiểm 5 tiêu chí
-- [x] Retention đủ 6 thành phần và khớp kết luận cadence
-- [x] Loop có metric hypothesis trỏ về một metric ở Phase 3
-- [x] Mọi event map về một metric; 4 acceptance criteria viết rõ như ví dụ mẫu
-- [x] Revision log ghi lý do 4 thay đổi
-- [x] AI Support Log là của chính người nộp
-- [ ] ⬜ **Dán link tệp nhóm đã cấp quyền xem vào §2**
-- [x] Chốt tên nhóm: **JCungDuoc**
-- [ ] ⬜ **Nhóm phản biện core action, cadence và metric hypothesis** (§3)
-
----
-
 ## Cấu trúc repo
 
 ```
